@@ -1,4 +1,4 @@
 // Modal - popup overlay on the screen
-export function Modal(){
+export default function Modal(){
     return
 }
