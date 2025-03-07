@@ -2,7 +2,7 @@ import { useState } from "react"
 import { first151Pokemon, getFullPokedexNumber } from "../utils"
 
 export default function SideNav(props){
-    const {selectedPokemon , setSelectedPokemon} = props
+    const {selectedPokemon , setSelectedPokemon , handleCloseMenu , showSideMenu} = props
     const [searchValue , setSearchValue] = useState('')
     const filteredPokemon = first151Pokemon.filter((ele ,eleIndex) => {
         // if full pokedex no includes current search value return true
@@ -14,19 +14,22 @@ export default function SideNav(props){
         return false
     })
     return(
-        <nav>
-            <div className={"header"}>
+        <nav className={' ' + (!showSideMenu ? 'open' : '')}>
+            <div className={"header" + (!showSideMenu ? 'open' : '')}>
+                <button onClick={handleCloseMenu} className="open-nav-button"><i class="fa-solid fa-arrow-left"></i></button>
                 <h1 className="text-gradient">Pokédex</h1>
             </div>
             <input value={searchValue} onChange={(e) => {
                 setSearchValue(e.target.value)}} type="text" placeholder="Pokémon"/>
             {
                 filteredPokemon.map((pokemon,pokemonIndex) => {
+                    const truePokedexNumber = first151Pokemon.indexOf(pokemon)
                     return(
                         <button onClick={() => {
-                            setSelectedPokemon(pokemonIndex)
+                            setSelectedPokemon(truePokedexNumber)
+                            handleCloseMenu()
                         }} key={pokemonIndex} className={'nav-card ' + (pokemonIndex == selectedPokemon ? 'nav-card-selected' : ' ')}>
-                            <p>{getFullPokedexNumber(first151Pokemon.indexOf(pokemon))}</p>
+                            <p>{getFullPokedexNumber(truePokedexNumber)}</p>
                             <p>{pokemon}</p>
                         </button>
                     )
